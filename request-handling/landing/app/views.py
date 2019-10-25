@@ -48,8 +48,21 @@ def stats(request):
     # Чтобы отличить с какой версии лендинга был переход
     # проверяйте GET параметр marker который может принимать значения test и original
     # Для вывода результат передайте в следующем формате:
-    original_ratio_original = counter_click['original'] / counter_show['original']
-    test_ratio_original = counter_click['test'] / counter_show['test']
+    # if counter_show['original'] != 0:
+    #     original_ratio_original = counter_click['original'] / counter_show['original']
+    # else:
+    #     original_ratio_original = 0
+    # if counter_show['test'] != 0:
+    #     test_ratio_original = counter_click['test'] / counter_show['test']
+    # else:
+    #     test_ratio_original = 0
+    original_ratio_original = 0
+    test_ratio_original = 0
+    try:
+        original_ratio_original = counter_click['original'] / counter_show['original']
+        test_ratio_original = counter_click['test'] / counter_show['test']
+    except ZeroDivisionError:
+        print('Деление на ноль')
     return render_to_response('stats.html', context={
         'test_conversion': test_ratio_original,
         'original_conversion': original_ratio_original,
