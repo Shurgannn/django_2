@@ -1,5 +1,6 @@
 from pprint import pprint
 
+from django.db.models.functions import math
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect
 from django.urls import reverse
@@ -14,41 +15,41 @@ def index(request):
 
 
 def bus_stations(request):
-    data_dict = {}
+    data_list = []
     with open(BUS_STATION_CSV, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
-            # data = (row['Name'], row['Street'], row['District'])
-            data_dict['Name'], data_dict['Street'], data_dict['District'] = (row['Name']), (row['Street']), (row['District'])
-    print(len(data_dict))
-    pprint(data_dict)
+            data_dict = {'Name': row['Name'], 'Street': row['Street'], 'District': row['District']}
+            data_list.append(data_dict)
 
-    current_page = 1
-    next_page_url = 'write your url'
+    # current_page = int(request.GET.get('page', 1))
+    # items_per_page = 7
+    # total_pages = int(len(data_list) / items_per_page)
+    # if current_page <= 0:
+    #     current_page = 1
+    # if current_page > total_pages:
+    #     current_page = total_pages
+    # data = data_list[(current_page - 1) * items_per_page: current_page * items_per_page]
+
+    current_page = int(request.GET.get('page', 1))
+    items_per_page = 7
+
+    paginator = Paginator(data_list, items_per_page)
+    page = paginator.get_page(current_page)
+    data = page.object_list
+
+    if page.has_next():
+        next_page_url = f'?page={page.next_page_number()}'
+    else:
+        next_page_url = f'?page={current_page}'
+    if page.has_previous():
+        prev_page_url = f'?page={page.previous_page_number()}'
+    else:
+        prev_page_url = f'?page={current_page}'
+
     return render_to_response('index.html', context={
-        'bus_stations': [{'Name': data_dict['Name'], 'Street': data_dict['Street'], 'District': data_dict['District']}],
+        'bus_stations': data,
         'current_page': current_page,
-        'prev_page_url': None,
+        'prev_page_url': prev_page_url,
         'next_page_url': next_page_url,
     })
-
-
-# DATA = [str(i + 1) for i in range(100)]
-#
-# def pag_view(request):
-#     page_num = int(request.GET.get('page', 1))
-#     count = 7
-#
-#     paginator = Paginator(DATA, count)
-#     page = paginator.get_page(page_num)
-#     data = page.object_list
-#
-#     print(page.number)
-#     if page.has_next():
-#         print('next = ', page.next_page_number())
-#     if page.has_previous():
-#         print('previous = ', page.previous_page_number())
-#
-#     msg = '<br>'.join(data)
-#     return HttpResponse(msg)
-
