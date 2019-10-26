@@ -21,7 +21,6 @@ def file_list(request, date:datetime=None):
                      'ctime': ctime,
                      'mtime': mtime}
         if date != None:
-            print(date.date(), ctime)
             if date.date() == ctime:
                 data_list.append(data_dict)
             context['date'] = date.date()
