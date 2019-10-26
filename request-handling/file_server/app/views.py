@@ -1,29 +1,45 @@
-import datetime
+from datetime import datetime, date
+import os
+from pprint import pprint
 
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
+
+from app.settings import FILES_PATH
 
 
-def file_list(request):
+def file_list(request, date=None):
     template_name = 'index.html'
-    
+    dirs = os.listdir(FILES_PATH)
+    statinfo = os.stat(FILES_PATH)
+    for i in statinfo:
+        print(i)
+    data_list = []
     # Реализуйте алгоритм подготавливающий контекстные данные для шаблона по примеру:
-    context = {
-        'files': [
-            {'name': 'file_name_1.txt',
-             'ctime': datetime.datetime(2018, 1, 1),
-             'mtime': datetime.datetime(2018, 1, 2)}
-        ],
-        'date': datetime.date(2018, 1, 1)  # Этот параметр необязательный
-    }
+    for file in dirs:
+        data_dict = {'name': file,
+                     'ctime': statinfo[9],
+                     'mtime': statinfo[8]}
+        data_list.append(data_dict)
+    # pprint(data_list)
+
+    context = {'files': data_list,
+               'date': date}  # Этот параметр необязательный
 
     return render(request, template_name, context)
 
 
 def file_content(request, name):
     # Реализуйте алгоритм подготавливающий контекстные данные для шаблона по примеру:
-    return render(
-        request,
-        'file_content.html',
-        context={'file_name': 'file_name_1.txt', 'file_content': 'File content!'}
-    )
+    dirs = os.listdir(FILES_PATH)
+    if name in dirs:
+        for file in dirs:
+            with open(f'C:/My documents/Django_1/dj-homeworks/request-handling/file_server/files/{file}', encoding='utf-8') as f:
+                file_content = f.read()
+                print(file_content)
+            context = {'file_name': name, 'file_content': file_content}
+    else:
+        context = {'file_name': 'file_name_1.txt', 'file_content': 'File content!'}
+
+
+    return render(request, 'file_content.html', context)
 
