@@ -41,11 +41,11 @@ def bus_stations(request):
     if page.has_next():
         next_page_url = f'?page={page.next_page_number()}'
     else:
-        next_page_url = f'?page={current_page}'
+        next_page_url = None
     if page.has_previous():
         prev_page_url = f'?page={page.previous_page_number()}'
     else:
-        prev_page_url = f'?page={current_page}'
+        prev_page_url = None
 
     return render_to_response('index.html', context={
         'bus_stations': data,

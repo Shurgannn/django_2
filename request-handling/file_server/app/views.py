@@ -7,24 +7,27 @@ from django.shortcuts import render, render_to_response
 from app.settings import FILES_PATH
 
 
-def file_list(request, date=None):
+def file_list(request, date:datetime=None):
     template_name = 'index.html'
     dirs = os.listdir(FILES_PATH)
-    statinfo = os.stat(FILES_PATH)
-    for i in statinfo:
-        print(i)
     data_list = []
+    context = {}
     # Реализуйте алгоритм подготавливающий контекстные данные для шаблона по примеру:
     for file in dirs:
+        file_stats = os.stat(os.path.join(FILES_PATH, file))
+        ctime = datetime.fromtimestamp(file_stats.st_ctime).date()
+        mtime = datetime.fromtimestamp(file_stats.st_mtime).date()
         data_dict = {'name': file,
-                     'ctime': statinfo[9],
-                     'mtime': statinfo[8]}
-        data_list.append(data_dict)
-    # pprint(data_list)
-
-    context = {'files': data_list,
-               'date': date}  # Этот параметр необязательный
-
+                     'ctime': ctime,
+                     'mtime': mtime}
+        if date != None:
+            print(date.date(), ctime)
+            if date.date() == ctime:
+                data_list.append(data_dict)
+            context['date'] = date.date()
+        else:
+            data_list.append(data_dict)
+    context['files'] = data_list
     return render(request, template_name, context)
 
 
@@ -33,12 +36,12 @@ def file_content(request, name):
     dirs = os.listdir(FILES_PATH)
     if name in dirs:
         for file in dirs:
-            with open(f'C:/My documents/Django_1/dj-homeworks/request-handling/file_server/files/{file}', encoding='utf-8') as f:
+            with open(f'{FILES_PATH}/{file}') as f:
                 file_content = f.read()
-                print(file_content)
+                # print(file_content)
             context = {'file_name': name, 'file_content': file_content}
     else:
-        context = {'file_name': 'file_name_1.txt', 'file_content': 'File content!'}
+        context = {'file_name': name, 'file_content': 'Запрашиваемый файл отсутсвует'}
 
 
     return render(request, 'file_content.html', context)
