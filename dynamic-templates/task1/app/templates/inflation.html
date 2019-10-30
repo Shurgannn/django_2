@@ -19,7 +19,46 @@
         <div class="col s12 m8">
         
         <!-- Ваша логика -->
-
+          <table class="u-full-width">
+            <thead>
+              <tr>
+                <td>Год</td>
+                <td>Январь</td>
+                <td>Февраль</td>
+                <td>Март</td>
+                <td>Апрель</td>
+                <td>Май</td>
+                <td>Июнь</td>
+                <td>Июль</td>
+                <td>Август</td>
+                <td>Сентябрь</td>
+                <td>Октябрь</td>
+                <td>Ноябрь</td>
+                <td>Декабрь</td>
+                <td>Всего</td>
+              </tr>
+            </thead>
+            <tbody>
+            {% for d in data %}
+              <tr>
+                <td>{{ d.Год }}</td>
+                <td>{{ d.Янв }}</td>
+                <td>{{ d.Фев }}</td>
+                <td>{{ d.Мар }}</td>
+                <td>{{ d.Апр }}</td>
+                <td>{{ d.Май }}</td>
+                <td>{{ d.Июн }}</td>
+                <td>{{ d.Июл }}</td>
+                <td>{{ d.Авг }}</td>
+                <td>{{ d.Сен }}</td>
+                <td>{{ d.Окт }}</td>
+                <td>{{ d.Ноя }}</td>
+                <td>{{ d.Дек }}</td>
+                <td>{{ d.Всего }}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
         </div>
       </div>
     {% endblock %}
