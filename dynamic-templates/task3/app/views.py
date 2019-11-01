@@ -1,3 +1,5 @@
+from pprint import pprint
+
 import requests
 from django.shortcuts import render
 
@@ -5,6 +7,9 @@ from django.shortcuts import render
 def do_request():
     resp = requests.get('https://reddit.com/r/Python/top.json',
                         headers={'User-Agent': 'Python Netology'})
+    for a in (resp.json()['data']['children']):
+        pprint(a['data']['title'])
+
     return resp.json()['data']['children']
 
 
