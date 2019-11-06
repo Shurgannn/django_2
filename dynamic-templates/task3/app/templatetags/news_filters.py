@@ -53,8 +53,12 @@ def format_num_comments(value: int) -> str or int:
 def format_selftext(value: str, count: int = 5) -> str:
     post_format_selftext_first = ''
     post_format_selftext_last = ''
+    post_format_selftext = ''
     e = value.split()
-    if len(e) < count * 2:
+    if 0 < len(e) < count * 2:
+        for i in e:
+            post_format_selftext += i
+    elif len(e) == 0:
         post_format_selftext = ''
     else:
         b = e[0:count]
