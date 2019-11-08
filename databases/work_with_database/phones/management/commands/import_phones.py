@@ -16,5 +16,12 @@ class Command(BaseCommand):
             next(phone_reader)
 
             for line in phone_reader:
-                # TODO: Добавьте сохранение модели
-                pass
+                p = Phone(id=line[0],
+                          name=line[1],
+                          price=line[3],
+                          image=line[2],
+                          release_date=line[4],
+                          lte_exists=line[5],
+                          slug=line[1].split(' ')[0])
+                p.save()
+        pass
