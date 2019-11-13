@@ -10,6 +10,9 @@
 
         <div class="sort-block">
             {# Здесь должен быть раздел с сортировкой #}
+            {% for serv in serv_list %}
+                <br> Сортировать по: <a href=/catalog/{{serv.sort}}>названию</a>
+            {% endfor %}
         </div>
 
         <div class="content">
