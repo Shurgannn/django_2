@@ -10,7 +10,7 @@
         <div class="content">
         {% for serv in serv_list %}
             <br> Стоимость: {{ serv.price }} руб.
-            <br> Дата выхода: {{ serv.release_date }}
+            <br> Дата выхода: {{serv.release_date}}
             <br> Есть LTE: {{ serv.lte_exists }}
             <br> <img src="{{ serv.image}}">
             {% endfor %}
