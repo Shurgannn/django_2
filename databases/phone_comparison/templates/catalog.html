@@ -6,6 +6,24 @@
     <div class="container">
         <div class="header">
             <h1>Сравнение телефонов</h1>
+            <table class="u-full-width">
+            <thead>
+              <tr>
+                {% for parameter in list_k %}
+		          <td>{{ parameter }}</td>
+                {% endfor %}
+              </tr>
+            </thead>
+            <tbody>
+              {% for d in data %}
+              <tr>
+                <td> {{ d.Название }} </td>
+                  <td> {{ d.Цена }} руб. </td>
+                  <td> {{ d.Операционнаясистема }} </td>
+                  {% endfor %}
+              </tr>
+            </tbody>
+            </table>
         </div>
     </div>
 {% endblock %}
