@@ -13,12 +13,11 @@ class Thematics(models.Model):
 
 
 class Article(models.Model):
-
     title = models.CharField(max_length=256, verbose_name='Название')
     text = models.TextField(verbose_name='Текст')
     published_at = models.DateTimeField(verbose_name='Дата публикации')
     image = models.ImageField(null=True, blank=True, verbose_name='Изображение',)
-    thematic = models.ManyToManyField(Thematics, through='Relationship', through_fields=('article', 'thematics'),)
+    thematic = models.ManyToManyField(Thematics, through='Relationship',)
 
     class Meta:
         verbose_name = 'Статья'
@@ -31,4 +30,5 @@ class Article(models.Model):
 class Relationship(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     thematics = models.ForeignKey(Thematics, on_delete=models.CASCADE)
+    is_main = models.BooleanField(default=True)
 
