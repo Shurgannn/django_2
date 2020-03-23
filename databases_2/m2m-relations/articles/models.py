@@ -2,14 +2,15 @@ from django.db import models
 
 
 class Thematics(models.Model):
-    name = models.CharField(max_length=30, verbose_name='Раздел')
+    topic = models.CharField(max_length=30, verbose_name='Раздел')
+    is_main = models.BooleanField(default=True)
 
     class Meta:
         verbose_name = 'Тематика статьи'
         verbose_name_plural = 'Тематики статьи'
 
     def __str__(self):
-        return self.name
+        return self.topic
 
 
 class Article(models.Model):
@@ -29,5 +30,5 @@ class Article(models.Model):
 
 class Relationship(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
-    thematics = models.ForeignKey(Thematics, on_delete=models.CASCADE)
-    is_main = models.BooleanField(default=True)
+    thematics = models.ForeignKey(Thematics, on_delete=models.CASCADE, verbose_name='РАЗДЕЛ',)
+    is_main = models.BooleanField(default=False, verbose_name='Основной',)
