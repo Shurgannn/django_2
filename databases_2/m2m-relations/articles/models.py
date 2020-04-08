@@ -3,7 +3,7 @@ from django.db import models
 
 class Thematics(models.Model):
     topic = models.CharField(max_length=30, verbose_name='Раздел')
-    is_main = models.BooleanField(default=True)
+    topic2 = models.TextField(max_length=30, verbose_name='Раздел2', default=0)
 
     class Meta:
         verbose_name = 'Тематика статьи'
@@ -31,4 +31,4 @@ class Article(models.Model):
 class Relationship(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     thematics = models.ForeignKey(Thematics, on_delete=models.CASCADE, verbose_name='РАЗДЕЛ',)
-    is_main = models.BooleanField(default=False, verbose_name='Основной',)
+    is_main = models.BooleanField(verbose_name='Основной',)
