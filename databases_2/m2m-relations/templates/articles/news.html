@@ -13,10 +13,8 @@
           <a href="#">{{ article.title }}</a>
         </h4>
         <p class="card-text">{{ article.text }}</p>
-<!--        scopes = Relationship.objects.filter(article=article)> 'Как сделать запрос внутри файла HTML?'-->
-        {% for scope in article.scopes.all %}
-          {{scope}}
-          <span class="badge {% if scope.is_main %}badge-primary{% else %}badge-secondary{% endif %}">{{ scope }}</span>
+        {% for scope in article.scopes %}
+          <span class="badge {% if scope.is_main == True %}badge-primary{% else %}badge-secondary{% endif %}">{{ scope }}</span>
         {% endfor %}
       </div>
     </div>
