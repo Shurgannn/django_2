@@ -3,7 +3,6 @@ from django.db import models
 
 class Thematics(models.Model):
     topic = models.CharField(max_length=30, verbose_name='Раздел')
-    topic2 = models.TextField(max_length=30, verbose_name='Раздел2', default=0)
 
     class Meta:
         verbose_name = 'Тематика статьи'

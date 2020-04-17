@@ -9,13 +9,13 @@ from articles.models import Article, Relationship
 
 def articles_list(request):
     template = 'articles/news.html'
-    articles = Article.objects.all()
+    articles = Article.objects.all().order_by('published_at')
     context = {'object_list': articles}
     for article in articles:
         print(article)
         scopes = Relationship.objects.filter(article=article)
-        article.scopes = scopes
-
+        article.scop = scopes.order_by('thematics_id')
+        print(article.scop)
 
 
     # используйте этот параметр для упорядочивания результатов
